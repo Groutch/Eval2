@@ -61,5 +61,11 @@
         "php artisan clear-compiled",
 	"php artisan optimize",
 	"chmod -R 777 public/"
-	 ]
+	 ],
+    "public" : {
+            "driver" : "local",
+            "root" : "storage_path('app/public')",
+            "url" : "env('APP_URL').'/storage'",
+            "visibility" : "public",
+        },
 }

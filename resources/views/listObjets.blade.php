@@ -31,6 +31,11 @@
                         <a href="/take/{{$objet->idObjet}}"><button class="btn btn-secondary">Je suis interessé</button></a>
                     </div> 
                 @endif
+                @if ($user->id == $objet->idVendeur)
+                    <div class="float-right">
+                        <a href="/delete/{{$objet->idObjet}}"><button class="btn btn-warning">Supprimer L'objet</button></a>
+                    </div> 
+                @endif
                 @endif
             </div>
             </div>

@@ -14,7 +14,9 @@
 Route::get('/','ObjetsController@index');
 Route::post('/','ObjetsController@store');
 Route::get('/create','ObjetsController@create');
-Route::get('/take/{id}','ObjetsController@delete');
+Route::get('/take/{id}','ObjetsController@take');
+Route::get('/delete/{id}','ObjetsController@delete');
+Route::get('/panel','ObjetsController@viewPanel');
 Auth::routes();
 /*
 Route::get('/', function () {

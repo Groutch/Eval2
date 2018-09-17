@@ -64,7 +64,7 @@ class ObjetsController extends Controller
         $objet->idVendeur=$request->get('idVendeur');
         $objet->idCategorie=$request->get('categorie');
         $objet->save();
-        return redirect('/')->with('success', "L'objet a été ajouté !");
+        return redirect('/')->with('status', "L'objet a été ajouté !");
     }
 
     /**
@@ -78,35 +78,57 @@ class ObjetsController extends Controller
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Objets  $objets
-     * @return \Illuminate\Http\Response
-     */
-    public function delete($id)
+
+    public function take($id)
     {
         $user = Auth::user();
         if ($user!=NULL){
-            
+            $objreq=DB::table('objets')->where('idObjet','=',$id)->get();
             //on récup le score de l'utilisateur à qui l'objet appartenait
             $userreq=DB::table('users')
                 ->join('objets', 'users.id', '=', 'objets.idVendeur')
                 ->select('users.id','users.score')
                 ->where('objets.idObjet','=',$id)
                 ->get();;
-            $iduser=$userreq[0]->id;
+            $idvendeur=$userreq[0]->id;
             $score=$userreq[0]->score;
+            $nomObjet = $objreq[0]->nomObjet;
+            
             //on incrémente le score et pouf on le remet dans la bdd
             $score++;
             
             DB::table('users')
-            ->where('id', $iduser)
+            ->where('id', $idvendeur)
             ->update(['score' => $score]);
             
-            DB::table('objets')->where('idObjet', '=', $id)->delete();
-            return redirect('/')->with('success', "L'objet a bien été reservé !");
+            //on ajoute une notif dans la bdd pour l'afficher sur le panel du vendeur
+            
+            $message = "L'utilisateur ".$user->name." est interessé par votre objet : ".$nomObjet.". Vous pouvez le contacter à ".$user->email;
+            DB::table('notifs')->insert(['idVendeur' => $idvendeur, 'contenu' => $message]);
+            
+            
+            return redirect('/')->with('status', "L'utilisateur a été informé de votre intérêt !");
         }
-        return redirect('/')->with('success', "Erreur!");
+        return redirect('/')->with('status', "Erreur!");
+    }
+    
+    public function delete($id)
+    {
+        $user = Auth::user();
+        if ($user!=NULL){
+            DB::table('objets')->where('idObjet', '=', $id)->delete();
+            
+            return redirect('/')->with('status', "Votre objet est bien supprimé !");
+        }
+        return redirect('/')->with('status', "Erreur!");
+    }
+    
+    public function viewPanel()
+    {
+        $user = Auth::user();
+        $notifs = DB::table('notifs')->where('idVendeur',$user->id)->get();
+        if ($user!=NULL){
+            return view('viewPanel',compact('user'), compact('notifs'));
+        }
     }
 }

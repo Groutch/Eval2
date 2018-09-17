@@ -62,5 +62,5 @@
 	"php artisan optimize",
 	"chmod -R 777 public/"
 	 ],
-    "post-install-cmd": [ "ln -sr storage/app/public public/storage" ],
+    "post-install-cmd": [ "ln -sr storage/app/public public/storage" ]
 }

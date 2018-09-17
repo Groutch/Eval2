@@ -17,6 +17,7 @@ class CreateObjetsTable extends Migration
             $table->increments('idObjet');
             $table->string('nomObjet');
             $table->string('image');
+            $table->longText('description');
             $table->unsignedInteger('idVendeur');
             $table->unsignedInteger('idCategorie');
             $table->timestamps();

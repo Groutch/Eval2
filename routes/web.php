@@ -12,6 +12,9 @@
 */
 
 Route::get('/','ObjetsController@index');
+Route::post('/','ObjetsController@store');
+Route::get('/create','ObjetsController@create');
+Route::get('/take/{id}','ObjetsController@delete');
 Auth::routes();
 /*
 Route::get('/', function () {
@@ -20,5 +23,9 @@ Route::get('/', function () {
 */
 
 Auth::routes();
+
+
+
+
 
 Route::get('/home', 'HomeController@index')->name('home');

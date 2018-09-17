@@ -11,6 +11,21 @@
         @if ($user!=NULL)
             <a  href="{{ url('/create') }}">Donner un objet</a>
         @endif
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+         <div class="navbar-brand">Catégories : </div>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link" href="/">Toutes les catégories</a>
+              </li>
+             @foreach($categories as $categorie)
+              <li class="nav-item">
+                <a class="nav-link" href="/cat/{{$categorie->idCat}}">{{$categorie->nomCat}}</a>
+              </li>
+             @endforeach
+            </ul>
+          </div>
+        </nav>
         @foreach($objets as $objet)
         @php
         $date=$objet->created_at;

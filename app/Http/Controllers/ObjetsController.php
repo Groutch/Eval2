@@ -16,6 +16,8 @@ class ObjetsController extends Controller
      */
     public function index()
     {
+        $categories = DB::table('categorie')->get();
+        
         $objets=DB::table('objets')
             ->select('objets.idObjet', 'objets.nomObjet','objets.image','objets.description','objets.idVendeur','objets.created_at','objets.updated_at','users.id as iduser','users.name as name')
             ->join('users', function ($join) {
@@ -23,7 +25,7 @@ class ObjetsController extends Controller
             })
             ->get();
         $user = Auth::user();
-        return view('listObjets',compact('objets'),compact('user'),compact('categories'));
+        return view('listObjets',compact('categories','objets','user'));
     }
 
     /**
@@ -130,5 +132,18 @@ class ObjetsController extends Controller
         if ($user!=NULL){
             return view('viewPanel',compact('user'), compact('notifs'));
         }
+    }
+    public function viewCat($id)
+    {
+        $categories = DB::table('categorie')->get();
+        $objets=DB::table('objets')
+            ->select('objets.idObjet', 'objets.nomObjet','objets.image','objets.description','objets.idVendeur','objets.created_at','objets.updated_at','users.id as iduser','users.name as name')
+            ->join('users', function ($join) {
+                $join->on('objets.idVendeur', '=', 'users.id');
+            })
+            ->where('objets.idCategorie',"=",$id)
+            ->get();
+        $user = Auth::user();
+        return view('listObjets',compact('categories','objets','user')); 
     }
 }

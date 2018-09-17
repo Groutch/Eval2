@@ -17,6 +17,7 @@ Route::get('/create','ObjetsController@create');
 Route::get('/take/{id}','ObjetsController@take');
 Route::get('/delete/{id}','ObjetsController@delete');
 Route::get('/panel','ObjetsController@viewPanel');
+Route::get('/cat/{id}','ObjetsController@viewCat');
 Auth::routes();
 /*
 Route::get('/', function () {

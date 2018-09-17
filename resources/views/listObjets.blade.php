@@ -35,7 +35,7 @@
 
             <div class="card-header"><h3>{{$objet->nomObjet}}</h3></div>
             <div class="row card-body">
-                <div class="col col-md-2"><img class="img-responsive" src="{{asset('storage/upload/'.$objet->image)}}"></div>
+                <div class="col col-md-2"><img class="img-responsive" src="{{secure_asset('storage/upload/'.$objet->image)}}"></div>
                 <div class="col col-md-10">@php  echo ($objet->description) @endphp <br></div>
             </div>
             <div class="card-footer">
